@@ -122,7 +122,11 @@ func _show_result(text: String, color: Color) -> void:
 
 
 func restart() -> void:
-	get_tree().reload_current_scene()
+	SceneTransition.reload_scene()
+
+
+func back_to_menu() -> void:
+	SceneTransition.change_scene("res://scenes/ui/MainMenu.tscn")
 
 
 func _set_buttons_disabled(disabled: bool) -> void:

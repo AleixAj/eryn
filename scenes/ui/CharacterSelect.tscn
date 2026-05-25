@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://c31v87nj7dism"]
+
+[ext_resource type="Script" path="res://scripts/ui/CharacterSelect.gd" id="1_cs"]
+[ext_resource type="Texture2D" uid="uid://do16m8vxc681t" path="res://assets/sprites/background.jpg" id="2_cs_bg"]
+
+[node name="CharacterSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_cs")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("2_cs_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_right = 1.0
+offset_top = 22.0
+offset_bottom = 96.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.36, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.08, 0.02, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 6
+theme_override_font_sizes/font_size = 56
+text = "ELIGE TU HÉROE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_right = 1.0
+offset_top = 96.0
+offset_bottom = 128.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.62, 0.92)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "✦  Cada uno tiene su propio estilo  ✦"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 140.0
+offset_bottom = -200.0
+
+[node name="Cards" type="HBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="Bottom" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = -180.0
+offset_right = -80.0
+offset_bottom = -32.0
+theme_override_constants/separation = 18
+
+[node name="Description" type="Label" parent="Bottom"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = "Selecciona un héroe."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Bottom"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 80
+
+[node name="BackButton" type="Button" parent="Bottom/Buttons"]
+custom_minimum_size = Vector2(220, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.82, 0.66, 1)
+theme_override_colors/font_outline_color = Color(0.15, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "← ATRÁS"
+
+[node name="ConfirmButton" type="Button" parent="Bottom/Buttons"]
+custom_minimum_size = Vector2(280, 60)
+layout_mode = 2
+disabled = true
+theme_override_colors/font_color = Color(1, 0.95, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0.15, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+text = "⚔  CONFIRMAR"
+
+[connection signal="pressed" from="Bottom/Buttons/BackButton" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Bottom/Buttons/ConfirmButton" to="." method="_on_confirm_pressed"]

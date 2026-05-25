@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "id": "eryn",
+    "name": "Eryn",
+    "class": "Espadachín",
+    "max_hp": 100,
+    "attack_damage": 25,
+    "crit_chance": 0.15,
+    "crit_multiplier": 1.8,
+    "tint": [1.0, 1.0, 1.0],
+    "description": "Equilibrio perfecto. Hábil con la espada en cualquier batalla."
+  },
+  {
+    "id": "kael",
+    "name": "Kael",
+    "class": "Berserker",
+    "max_hp": 80,
+    "attack_damage": 35,
+    "crit_chance": 0.28,
+    "crit_multiplier": 2.0,
+    "tint": [1.0, 0.62, 0.5],
+    "description": "Frágil pero letal. Críticos devastadores y golpes brutales."
+  },
+  {
+    "id": "lyra",
+    "name": "Lyra",
+    "class": "Guardiana",
+    "max_hp": 150,
+    "attack_damage": 18,
+    "crit_chance": 0.10,
+    "crit_multiplier": 1.6,
+    "tint": [0.7, 0.85, 1.0],
+    "description": "Resistencia inquebrantable. Aguanta lo que otros no podrían."
+  }
+]

@@ -10,6 +10,7 @@ export_presets.cfg
 # Android / Mobile exports
 # ========================
 android/
+build/
 *.apk
 *.aab
 *.aab.debug
