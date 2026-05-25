@@ -1,0 +1,217 @@
+[gd_scene format=3 uid="uid://bq8vse5whbsai"]
+
+[ext_resource type="Texture2D" uid="uid://do16m8vxc681t" path="res://assets/sprites/background.jpg" id="1_ggaou"]
+[ext_resource type="Script" uid="uid://g078gqrnss5g" path="res://scripts/entities/Hero.gd" id="1_ptmnv"]
+[ext_resource type="Script" uid="uid://jahgp31vdp31" path="res://scripts/entities/Boss.gd" id="2_4bwt6"]
+[ext_resource type="Texture2D" uid="uid://du350ib14m1g1" path="res://assets/sprites/hero.png" id="3_bha24"]
+[ext_resource type="Script" uid="uid://3ycog8q58wl8" path="res://scripts/managers/CombatManager.gd" id="3_pr6wa"]
+[ext_resource type="Texture2D" uid="uid://dxy1eu14y2j13" path="res://assets/sprites/Health_01.png" id="4_vwdjw"]
+[ext_resource type="Texture2D" uid="uid://b6rmspwgop6rd" path="res://assets/sprites/boss.png" id="5_13oga"]
+[ext_resource type="Texture2D" uid="uid://dem2ap0qbjta4" path="res://assets/sprites/Health_01_Bar01.png" id="5_agnob"]
+[ext_resource type="Texture2D" uid="uid://bbxjcp6q1gx7h" path="res://assets/sprites/Heart_Red_1.png" id="6_qiia3"]
+[ext_resource type="Texture2D" uid="uid://cajm7ix8e22vf" path="res://assets/sprites/Health_03.png" id="9_agnob"]
+[ext_resource type="Texture2D" uid="uid://bcnv8whpyq62p" path="res://assets/sprites/Health_03_Bar01.png" id="10_qiia3"]
+
+[node name="CombatScene" type="Node2D" unique_id=371552440]
+
+[node name="Background" type="Node2D" parent="." unique_id=1707774512]
+
+[node name="BackgroundSprite" type="Sprite2D" parent="Background" unique_id=2132288683]
+position = Vector2(642, 360.50006)
+scale = Vector2(1.0976027, 0.91964287)
+texture = ExtResource("1_ggaou")
+
+[node name="Characters" type="Node2D" parent="." unique_id=1634661646]
+z_index = 10
+
+[node name="PlayerParty" type="Node2D" parent="Characters" unique_id=2002290774]
+z_index = 5
+position = Vector2(320, 380)
+
+[node name="Hero" type="Node2D" parent="Characters/PlayerParty" unique_id=1685304773]
+position = Vector2(3, -1)
+script = ExtResource("1_ptmnv")
+
+[node name="HeroSprite" type="Sprite2D" parent="Characters/PlayerParty/Hero" unique_id=241733906]
+position = Vector2(113, 96)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_bha24")
+
+[node name="HeroHPBar" type="TextureProgressBar" parent="Characters/PlayerParty/Hero" unique_id=378833482]
+custom_minimum_size = Vector2(180, 18)
+offset_left = 16.0
+offset_top = -63.0
+offset_right = 208.0
+offset_bottom = -15.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("4_vwdjw")
+texture_progress = ExtResource("5_agnob")
+
+[node name="TextureRect" type="TextureRect" parent="Characters/PlayerParty/Hero/HeroHPBar" unique_id=781597464]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_qiia3")
+
+[node name="HeroHPLabel" type="Label" parent="Characters/PlayerParty/Hero/HeroHPBar"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 0.0
+offset_right = 192.0
+offset_bottom = 36.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyParty" type="Node2D" parent="Characters" unique_id=1152041252]
+z_index = 5
+position = Vector2(880, 380)
+
+[node name="Boss" type="Node2D" parent="Characters/EnemyParty" unique_id=154041304]
+script = ExtResource("2_4bwt6")
+max_hp = 200
+attack_damage = 18
+
+[node name="BossSprite" type="Sprite2D" parent="Characters/EnemyParty/Boss" unique_id=1722181624]
+position = Vector2(-48.999996, 28.000002)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_13oga")
+
+[node name="BossHPBar" type="TextureProgressBar" parent="Characters/EnemyParty/Boss" unique_id=1611698815]
+custom_minimum_size = Vector2(200, 20)
+offset_left = -137.0
+offset_top = -174.0
+offset_right = 63.0
+offset_bottom = -125.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("9_agnob")
+texture_progress = ExtResource("10_qiia3")
+
+[node name="BossHPLabel" type="Label" parent="Characters/EnemyParty/Boss/BossHPBar"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 200.0
+offset_bottom = 36.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "200 / 200"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1248575262]
+
+[node name="CombatUI" type="Control" parent="UI" unique_id=75312718]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 38.0
+offset_bottom = 38.0
+
+[node name="AttackButton" type="Button" parent="UI/CombatUI" unique_id=1799163948]
+layout_mode = 0
+offset_left = 442.0
+offset_top = 620.0
+offset_right = 622.0
+offset_bottom = 680.0
+text = "ATTACK"
+
+[node name="SkillButton" type="Button" parent="UI/CombatUI" unique_id=1014942725]
+layout_mode = 0
+offset_left = 663.0
+offset_top = 620.0
+offset_right = 843.0
+offset_bottom = 680.0
+text = "SKILL"
+
+[node name="LogLabel" type="Label" parent="UI/CombatUI" unique_id=2071120383]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 100.0
+offset_right = 824.0
+offset_bottom = 280.0
+theme_override_colors/font_color = Color(1, 0.97, 0.86, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+
+[node name="TurnLabel" type="Label" parent="UI/CombatUI"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 14.0
+offset_right = 1040.0
+offset_bottom = 92.0
+pivot_offset = Vector2(400, 39)
+theme_override_colors/font_color = Color(1, 0.86, 0.36, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.08, 0.02, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 9
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 5
+theme_override_font_sizes/font_size = 42
+text = "✦  TURNO DEL HÉROE  ✦"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResultPanel" type="Control" parent="UI/CombatUI"]
+visible = false
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Dim" type="ColorRect" parent="UI/CombatUI/ResultPanel"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.65)
+
+[node name="ResultLabel" type="Label" parent="UI/CombatUI/ResultPanel"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 240.0
+offset_right = 1280.0
+offset_bottom = 400.0
+pivot_offset = Vector2(640, 80)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 96
+text = "VICTORIA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI/CombatUI/ResultPanel"]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 460.0
+offset_right = 740.0
+offset_bottom = 524.0
+theme_override_font_sizes/font_size = 22
+text = "REINICIAR"
+
+[node name="CombatManager" type="Node" parent="." unique_id=194073406]
+script = ExtResource("3_pr6wa")
+
+[connection signal="pressed" from="UI/CombatUI/AttackButton" to="CombatManager" method="player_attack"]
+[connection signal="pressed" from="UI/CombatUI/SkillButton" to="CombatManager" method="player_skill"]
+[connection signal="pressed" from="UI/CombatUI/ResultPanel/RestartButton" to="CombatManager" method="restart"]
