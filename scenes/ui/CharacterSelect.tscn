@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c31v87nj7dism"]
 
-[ext_resource type="Script" path="res://scripts/ui/CharacterSelect.gd" id="1_cs"]
+[ext_resource type="Script" uid="uid://df6l3kk0l4kuk" path="res://scripts/ui/CharacterSelect.gd" id="1_cs"]
 [ext_resource type="Texture2D" uid="uid://do16m8vxc681t" path="res://assets/sprites/background.jpg" id="2_cs_bg"]
 
 [node name="CharacterSelect" type="Control"]

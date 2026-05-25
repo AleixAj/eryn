@@ -23,11 +23,7 @@ func _intro_animation() -> void:
 			e.modulate.a = 0.0
 			e.scale = Vector2(0.85, 0.85)
 
-	var t: Tween = create_tween()
-	t.set_parallel(false)
-
-	for i in elements.size():
-		var e = elements[i]
+	for e in elements:
 		if not e:
 			continue
 		var step: Tween = create_tween()
@@ -35,7 +31,8 @@ func _intro_animation() -> void:
 		step.tween_property(e, "modulate:a", 1.0, 0.35)
 		step.tween_property(e, "scale", Vector2(1.0, 1.0), 0.45) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		await get_tree().create_timer(0.12).timeout
+		await step.finished
+		await get_tree().create_timer(0.08).timeout
 
 
 func _on_play_pressed() -> void:
