@@ -88,6 +88,16 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 32
 text = "⚔  JUGAR"
 
+[node name="TestButton" type="Button" parent="Center/Content"]
+custom_minimum_size = Vector2(360, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.95, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0.15, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 26
+text = "☄  TEST"
+
 [node name="OptionsButton" type="Button" parent="Center/Content"]
 custom_minimum_size = Vector2(360, 56)
 layout_mode = 2
@@ -147,5 +157,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="pressed" from="Center/Content/PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Center/Content/TestButton" to="." method="_on_test_pressed"]
 [connection signal="pressed" from="Center/Content/OptionsButton" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Center/Content/QuitButton" to="." method="_on_quit_pressed"]

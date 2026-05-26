@@ -1,0 +1,356 @@
+[gd_scene format=3 uid="uid://ddibr4c8wnu2w"]
+
+[ext_resource type="Script" uid="uid://c1yt3elh7apk7" path="res://scripts/managers/TestBattle.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://byk6vtpmiawj0" path="res://assets/sprites/mountain-background.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://tpep7jtw7gim" path="res://assets/sprites/warrior.png" id="3_warrior"]
+[ext_resource type="Texture2D" uid="uid://djgj8broxjirx" path="res://assets/sprites/wizard.png" id="4_wizard"]
+[ext_resource type="Texture2D" uid="uid://dsew4o2wnf4d6" path="res://assets/sprites/smaug.png" id="5_smaug"]
+[ext_resource type="Script" uid="uid://bdx8reohsren2" path="res://scripts/utils/SpriteShadow.gd" id="6_shadow"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_panel"]
+
+[node name="TestBattle" type="Control" unique_id=1664024693]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1225087834]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="WarmOverlay" type="ColorRect" parent="." unique_id=824590108]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -7.0
+offset_right = 8.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.13, 0.06, 0.02, 0.12)
+
+[node name="Battlefield" type="Node2D" parent="." unique_id=1108496508]
+z_index = 10
+
+[node name="Warrior" type="Node2D" parent="Battlefield" unique_id=876690647]
+z_index = 15
+position = Vector2(252, 546)
+
+[node name="Sprite" type="Sprite2D" parent="Battlefield/Warrior" unique_id=575606517]
+position = Vector2(137, -109)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_warrior")
+
+[node name="Shadow" type="Sprite2D" parent="Battlefield/Warrior" unique_id=562428039 node_paths=PackedStringArray("target")]
+modulate = Color(0, 0, 0, 0.45)
+z_index = -1
+position = Vector2(137, -55.316)
+scale = Vector2(0.1, -0.035)
+texture = ExtResource("3_warrior")
+script = ExtResource("6_shadow")
+target = NodePath("../Sprite")
+relative_offset = Vector2(0, -175.16)
+
+[node name="Wizard" type="Node2D" parent="Battlefield" unique_id=2057496707]
+z_index = 12
+position = Vector2(246, 292)
+
+[node name="Sprite" type="Sprite2D" parent="Battlefield/Wizard" unique_id=245057727]
+position = Vector2(-105.00001, -193.00002)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_wizard")
+
+[node name="Shadow" type="Sprite2D" parent="Battlefield/Wizard" unique_id=91157956 node_paths=PackedStringArray("target")]
+modulate = Color(0, 0, 0, 0.4)
+z_index = -1
+position = Vector2(-105.00001, -117.11801)
+scale = Vector2(0.1, -0.032)
+texture = ExtResource("4_wizard")
+script = ExtResource("6_shadow")
+target = NodePath("../Sprite")
+flatten = 0.32
+darkness = 0.4
+relative_offset = Vector2(0, 48.82)
+
+[node name="Smaug" type="Node2D" parent="Battlefield" unique_id=2109894989]
+z_index = 14
+position = Vector2(890, 455)
+
+[node name="Sprite" type="Sprite2D" parent="Battlefield/Smaug" unique_id=1571958920]
+position = Vector2(-85.37501, -191.48502)
+scale = Vector2(0.29, 0.29)
+texture = ExtResource("5_smaug")
+
+[node name="Shadow" type="Sprite2D" parent="Battlefield/Smaug" unique_id=1271287225 node_paths=PackedStringArray("target")]
+modulate = Color(0, 0, 0, 0.5)
+z_index = -1
+position = Vector2(-85.37501, -0.0009214878)
+scale = Vector2(0.29, -0.087)
+texture = ExtResource("5_smaug")
+script = ExtResource("6_shadow")
+target = NodePath("../Sprite")
+flatten = 0.3
+darkness = 0.5
+relative_offset = Vector2(0, 6.79)
+
+[node name="Effects" type="Node2D" parent="." unique_id=1983429125]
+z_index = 100
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=258282056]
+layer = 20
+
+[node name="TurnBanner" type="PanelContainer" parent="UI" unique_id=2084824937]
+offset_left = 354.0
+offset_top = 9.0
+offset_right = 930.0
+offset_bottom = 73.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_panel")
+
+[node name="TurnLabel" type="Label" parent="UI/TurnBanner" unique_id=1084850994]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.36, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_colors/font_outline_color = Color(0.16, 0.07, 0.02, 1)
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 34
+text = "✦ TURNO DE GUERRERO ✦"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PartyPanel" type="Control" parent="UI" unique_id=486888795]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+
+[node name="WarriorPanel" type="Control" parent="UI/PartyPanel" unique_id=576305791]
+custom_minimum_size = Vector2(280, 92)
+anchors_preset = 0
+offset_left = 250.0
+offset_top = 490.0
+offset_right = 530.0
+offset_bottom = 600.0
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="UI/PartyPanel/WarriorPanel" unique_id=1287617959]
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(1, 0.85, 0.48, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "⚔ GUERRERO"
+
+[node name="HPBar" type="ProgressBar" parent="UI/PartyPanel/WarriorPanel" unique_id=1136658561]
+custom_minimum_size = Vector2(244, 22)
+layout_mode = 0
+offset_top = 36.0
+offset_right = 244.0
+offset_bottom = 58.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="UI/PartyPanel/WarriorPanel" unique_id=366029962]
+layout_mode = 0
+offset_top = 36.0
+offset_right = 244.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "135 / 135"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WizardPanel" type="Control" parent="UI/PartyPanel" unique_id=1103161446]
+custom_minimum_size = Vector2(280, 92)
+anchors_preset = 0
+offset_left = 22.0
+offset_top = 170.0
+offset_right = 302.0
+offset_bottom = 280.0
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="UI/PartyPanel/WizardPanel" unique_id=816126398]
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.7, 0.92, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "✦ MAGO"
+
+[node name="HPBar" type="ProgressBar" parent="UI/PartyPanel/WizardPanel" unique_id=1084717373]
+custom_minimum_size = Vector2(244, 22)
+layout_mode = 0
+offset_top = 36.0
+offset_right = 244.0
+offset_bottom = 58.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="UI/PartyPanel/WizardPanel" unique_id=2032470252]
+layout_mode = 0
+offset_top = 36.0
+offset_right = 244.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "92 / 92"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BossPanel" type="Control" parent="UI" unique_id=977360440]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 520.0
+offset_top = 430.0
+offset_right = 970.0
+offset_bottom = 514.0
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="UI/BossPanel" unique_id=725607335]
+layout_mode = 0
+offset_right = 450.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(1, 0.38, 0.18, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 22
+text = "☠ DRAGON"
+horizontal_alignment = 1
+
+[node name="HPBar" type="ProgressBar" parent="UI/BossPanel" unique_id=745843122]
+custom_minimum_size = Vector2(420, 24)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 40.0
+offset_right = 435.0
+offset_bottom = 64.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="UI/BossPanel" unique_id=1634464044]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 40.0
+offset_right = 435.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "260 / 260"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CommandPanel" type="VBoxContainer" parent="UI" unique_id=412475601]
+offset_left = 606.0
+offset_top = 543.0
+offset_right = 870.0
+offset_bottom = 733.0
+theme_override_constants/separation = 8
+
+[node name="AttackButton" type="Button" parent="UI/CommandPanel" unique_id=1929999596]
+custom_minimum_size = Vector2(264, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "⚔  ATAQUE"
+
+[node name="SkillButton" type="Button" parent="UI/CommandPanel" unique_id=2013922547]
+custom_minimum_size = Vector2(264, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "✦  TÉCNICA"
+
+[node name="MenuButton" type="Button" parent="UI/CommandPanel" unique_id=1402099257]
+custom_minimum_size = Vector2(264, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "←  MENÚ"
+
+[node name="LogPanel" type="PanelContainer" parent="UI" unique_id=1614609097]
+offset_left = 943.0
+offset_top = 9.0
+offset_right = 1269.0
+offset_bottom = 257.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_panel")
+
+[node name="LogLabel" type="Label" parent="UI/LogPanel" unique_id=94874403]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.78, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 15
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="ResultPanel" type="Control" parent="UI" unique_id=1164835875]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Dim" type="ColorRect" parent="UI/ResultPanel" unique_id=451789672]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.68)
+
+[node name="ResultLabel" type="Label" parent="UI/ResultPanel" unique_id=1902067584]
+layout_mode = 0
+offset_top = 220.0
+offset_right = 1280.0
+offset_bottom = 380.0
+pivot_offset = Vector2(640, 80)
+theme_override_colors/font_color = Color(1, 0.86, 0.28, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 92
+text = "VICTORIA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI/ResultPanel" unique_id=699634624]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 452.0
+offset_right = 620.0
+offset_bottom = 518.0
+theme_override_font_sizes/font_size = 22
+text = "↻ REINICIAR"
+
+[node name="MenuButton" type="Button" parent="UI/ResultPanel" unique_id=1841728900]
+layout_mode = 0
+offset_left = 660.0
+offset_top = 452.0
+offset_right = 860.0
+offset_bottom = 518.0
+theme_override_font_sizes/font_size = 22
+text = "✦ MENÚ"
+
+[connection signal="pressed" from="UI/CommandPanel/AttackButton" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="UI/CommandPanel/SkillButton" to="." method="_on_skill_pressed"]
+[connection signal="pressed" from="UI/CommandPanel/MenuButton" to="." method="_on_command_menu_pressed"]
+[connection signal="pressed" from="UI/ResultPanel/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="UI/ResultPanel/MenuButton" to="." method="_on_menu_button_pressed"]

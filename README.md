@@ -9,6 +9,10 @@ Va a su ritmo. Toco el proyecto cuando me apetece.
 - Pantalla principal con título medieval, animación en cascada y navegación con fades.
 - Selección de personaje con 3 héroes (cada uno con stats y estilo propios).
 - Combate por turnos 1v1 con animaciones de ataque, hit reaction y muerte.
+- Combate 2v1 contra un dragón (Guerrero + Mago) con turnos por aliado, skill propia para cada uno (corte pesado del guerrero, hechizo con orbe del mago), aliento de fuego del dragón y reacciones de daño.
+- Sombras dinámicas que se anclan automáticamente a los pies del sprite y se reescalan al cambiar el tamaño del personaje (`SpriteShadow.gd`, `@tool`).
+- HP bars con `StyleBoxFlat` custom: marco dorado, brillo superior, sombra inferior, gradiente por color de personaje.
+- Botones con estilo medieval (marrón/dorado) y paneles transparentes para que el escenario respire.
 - Números de daño flotantes; los críticos salen dorados con scale-pop.
 - Skill diferenciada del ataque básico — doble golpe con animación propia y daño total ~140%.
 - Barras de HP con tween cúbico, sincronizadas con un contador numérico encima.
@@ -35,8 +39,9 @@ eryn/
 │   └── bosses/     una escena por boss
 ├── scripts/
 │   ├── entities/   Combatant (base), Hero, Boss
-│   ├── managers/   CombatManager (FSM del combate), GachaManager…
-│   └── ui/         MainMenu, CharacterSelect, widgets reutilizables
+│   ├── managers/   CombatManager (FSM del combate), TestBattle (2v1), GachaManager…
+│   ├── ui/         MainMenu, CharacterSelect, widgets reutilizables
+│   └── utils/      SpriteShadow (sombras dinámicas), helpers
 └── singletons/     GameState, SceneTransition (y los que vendrán: AudioManager, SaveManager…)
 ```
 
@@ -61,10 +66,12 @@ Sin estados intermedios feos, sin polling de animaciones, sin acoplar la lógica
 ## Flujo del juego
 
 ```
-[MainMenu] ──JUGAR──▶ [CharacterSelect] ──CONFIRMAR──▶ [Combate]
-                              │                            │
-                              └──ATRÁS──▶ [MainMenu]        ├──MENÚ──▶ [MainMenu]
-                                                            └──REINICIAR──▶ [Combate]
+                     ┌─JUGAR──▶ [CharacterSelect] ──CONFIRMAR──▶ [Combate 1v1]
+[MainMenu] ──────────┼─TEST───▶ [Combate 2v1 vs dragón]
+                     └─SALIR──▶ ✕
+
+[CharacterSelect] ──ATRÁS──▶ [MainMenu]
+[Combate]         ──MENÚ / REINICIAR──▶ [MainMenu] / [Combate]
 ```
 
 Cada flecha pasa por un fade negro de `SceneTransition`. Mientras el fade está activo, los clicks quedan bloqueados — un detalle pequeño que evita un montón de race conditions con el doble-click.
@@ -77,7 +84,9 @@ Cada flecha pasa por un fade negro de `SceneTransition`. Mientras el fade está 
 - [x] Pantalla de selección de personaje
 - [x] Sistema de transiciones entre escenas
 - [x] Build configurada para Android (landscape, aspect-keep, ETC2/ASTC)
-- [ ] Party de hasta 3 héroes y combates en grupo
+- [x] Combate 2v1 (Guerrero + Mago vs dragón) con animaciones propias por skill
+- [x] Sombras dinámicas reutilizables (`SpriteShadow.gd`)
+- [ ] Unificar el 2v1 con el flujo principal (selección de party, no escena suelta)
 - [ ] Cargar enemigos y skills desde JSON
 - [ ] Mapa con nodos y combates encadenados
 - [ ] Sistema de gacha (pulls, rareza, pity)
@@ -92,7 +101,8 @@ git clone https://github.com/AleixAj/eryn
 
 1. Abrir la carpeta desde Godot 4.6+.
 2. `F5` arranca en el menú principal.
-3. JUGAR → elige un héroe → CONFIRMAR → combate.
+3. JUGAR → elige un héroe → CONFIRMAR → combate 1v1.
+4. TEST → combate 2v1 (Guerrero + Mago vs dragón) directamente, sin selección.
 
 Para probar en Android, el preset de export `Android (Runnable)` ya está. Con un móvil en modo desarrollador conectado por USB, **One-Click Deploy** desde el editor compila e instala en una pulsación.
 
@@ -104,6 +114,7 @@ Para probar en Android, el preset de export `Android (Runnable)` ya está. Con u
 - Mantener la lógica del combate desacoplada del render: `CombatManager` solo orquesta, las entidades se preocupan de cómo se ven.
 - Construir las cards de selección de personaje proceduralmente desde JSON, en lugar de duplicar `.tscn` por cada héroe.
 - Que `SceneTransition` no entre en bucles raros con `process_frame` ni se quede a medias si haces doble-click — guard interno y bloqueo de input mediante `mouse_filter`.
+- Hacer que las sombras de los personajes sigan a su sprite y se reescalen automáticamente sin que el editor las "cuajara" en el `.tscn`. La solución acabó siendo anclar al borde inferior de la textura (`texture.get_size().y / 2 * scale.y`) y guardar el ajuste fino en píxeles de textura, no de pantalla.
 
 ## Inspiraciones
 
