@@ -10,6 +10,10 @@ Va a su ritmo. Toco el proyecto cuando me apetece.
 - Selección de personaje con 3 héroes (cada uno con stats y estilo propios).
 - Combate por turnos 1v1 con animaciones de ataque, hit reaction y muerte.
 - Combate 2v1 contra un dragón (Guerrero + Mago) con turnos por aliado, skill propia para cada uno (corte pesado del guerrero, hechizo con orbe del mago), aliento de fuego del dragón y reacciones de daño.
+- Lanzamiento de d20 para el daño de ataque, en dos sabores intercambiables desde la UI:
+  - **3D**: dado real con físicas (gravedad, fricción, restitución) en un `SubViewport` 3D. La cara que queda hacia arriba al asentarse se traduce a número usando una tabla de calibración (`FACE_TO_NUMBER`).
+  - **2D**: animación pixel-art con el d20 cayendo desde la esquina, rebotando y rodando por la "mesa" hasta el centro, ciclando caras aleatorias hasta detenerse en el resultado.
+  - Al final, en ambos casos, un cartel grande con el número (y "¡CRÍTICO!" si sale 20) para que se lea sin esfuerzo.
 - Sombras dinámicas que se anclan automáticamente a los pies del sprite y se reescalan al cambiar el tamaño del personaje (`SpriteShadow.gd`, `@tool`).
 - HP bars con `StyleBoxFlat` custom: marco dorado, brillo superior, sombra inferior, gradiente por color de personaje.
 - Botones con estilo medieval (marrón/dorado) y paneles transparentes para que el escenario respire.
@@ -40,6 +44,7 @@ eryn/
 ├── scripts/
 │   ├── entities/   Combatant (base), Hero, Boss
 │   ├── managers/   CombatManager (FSM del combate), TestBattle (2v1), GachaManager…
+│   ├── effects/    Dice2DRoller, Dice3DRoller (lanzamientos de d20)
 │   ├── ui/         MainMenu, CharacterSelect, widgets reutilizables
 │   └── utils/      SpriteShadow (sombras dinámicas), helpers
 └── singletons/     GameState, SceneTransition (y los que vendrán: AudioManager, SaveManager…)
@@ -86,6 +91,7 @@ Cada flecha pasa por un fade negro de `SceneTransition`. Mientras el fade está 
 - [x] Build configurada para Android (landscape, aspect-keep, ETC2/ASTC)
 - [x] Combate 2v1 (Guerrero + Mago vs dragón) con animaciones propias por skill
 - [x] Sombras dinámicas reutilizables (`SpriteShadow.gd`)
+- [x] Tirada de d20 para el daño con dos modos (animación 2D pixel-art y dado 3D con físicas reales)
 - [ ] Unificar el 2v1 con el flujo principal (selección de party, no escena suelta)
 - [ ] Cargar enemigos y skills desde JSON
 - [ ] Mapa con nodos y combates encadenados
@@ -102,7 +108,9 @@ git clone https://github.com/AleixAj/eryn
 1. Abrir la carpeta desde Godot 4.6+.
 2. `F5` arranca en el menú principal.
 3. JUGAR → elige un héroe → CONFIRMAR → combate 1v1.
-4. TEST → combate 2v1 (Guerrero + Mago vs dragón) directamente, sin selección.
+4. TEST → combate 2v1 (Guerrero + Mago vs dragón). Dentro hay dos botones de ataque:
+   - **ATAQUE 3D** lanza el d20 con físicas reales en un `SubViewport`.
+   - **ATAQUE 2D** lanza el d20 con la animación pixel-art clásica.
 
 Para probar en Android, el preset de export `Android (Runnable)` ya está. Con un móvil en modo desarrollador conectado por USB, **One-Click Deploy** desde el editor compila e instala en una pulsación.
 
@@ -115,6 +123,7 @@ Para probar en Android, el preset de export `Android (Runnable)` ya está. Con u
 - Construir las cards de selección de personaje proceduralmente desde JSON, en lugar de duplicar `.tscn` por cada héroe.
 - Que `SceneTransition` no entre en bucles raros con `process_frame` ni se quede a medias si haces doble-click — guard interno y bloqueo de input mediante `mouse_filter`.
 - Hacer que las sombras de los personajes sigan a su sprite y se reescalen automáticamente sin que el editor las "cuajara" en el `.tscn`. La solución acabó siendo anclar al borde inferior de la textura (`texture.get_size().y / 2 * scale.y`) y guardar el ajuste fino en píxeles de textura, no de pantalla.
+- Meter un dado 3D real en una escena 2D sin reescribir todo el juego: un `SubViewport` con su propia `Camera3D`, mesa, paredes invisibles y un `RigidBody3D` con la malla del d20 (Jolt Physics). El truco más sucio fue traducir "qué cara ha quedado arriba" a "qué número está pintado en esa cara" — sin acceso a las UVs del modelo, lo resolví con un modo de calibración manual + la propiedad estándar del d20 (caras opuestas suman 21) para deducir las que faltaban.
 
 ## Inspiraciones
 

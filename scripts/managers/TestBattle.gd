@@ -15,6 +15,7 @@ const MENU_SCENE: String = "res://scenes/ui/MainMenu.tscn"
 @onready var turn_label: Label = $UI/TurnBanner/TurnLabel
 @onready var log_label: Label = $UI/LogPanel/LogLabel
 @onready var attack_button: Button = $UI/CommandPanel/AttackButton
+@onready var attack2d_button: Button = $UI/CommandPanel/Attack2DButton
 @onready var skill_button: Button = $UI/CommandPanel/SkillButton
 @onready var menu_button: Button = $UI/CommandPanel/MenuButton
 @onready var result_panel: Control = $UI/ResultPanel
@@ -95,7 +96,7 @@ func _setup_refs() -> void:
 
 
 func _style_buttons() -> void:
-	for btn in [attack_button, skill_button, menu_button]:
+	for btn in [attack_button, attack2d_button, skill_button, menu_button]:
 		_apply_button_style(btn)
 
 
@@ -204,15 +205,56 @@ func _intro() -> void:
 
 
 func _on_attack_pressed() -> void:
+	await _attack_with_dice("3d")
+
+
+func _on_attack_2d_pressed() -> void:
+	await _attack_with_dice("2d")
+
+
+func _attack_with_dice(kind: String) -> void:
 	if state != BattleState.PLAYER_TURN:
 		return
-	await _hero_action(false)
+	state = BattleState.ACTING
+	_set_buttons_disabled(true)
+
+	var roll: int = await _roll_dice_for_damage(kind)
+	var crit: bool = roll == 20
+	var damage: int = roll
+	var hero: Dictionary = heroes[active_index]
+	await _basic_attack(hero, damage, crit)
+
+	if not bool(boss_stats.alive):
+		_victory()
+		return
+	_next_living_hero_or_boss()
 
 
 func _on_skill_pressed() -> void:
 	if state != BattleState.PLAYER_TURN:
 		return
 	await _hero_action(true)
+
+
+# Lanza el dado en su propio CanvasLayer a pantalla completa para que se
+# pinte por encima del combate. `kind` selecciona la animación: "3d" usa el
+# modelo del GLB con físicas reales; "2d" usa los sprites pixel-art.
+func _roll_dice_for_damage(kind: String) -> int:
+	var layer: CanvasLayer = CanvasLayer.new()
+	layer.layer = 30
+	layer.name = "DiceOverlayLayer"
+	var roller: Control
+	if kind == "2d":
+		roller = Dice2DRoller.new()
+		roller.name = "DiceOverlay2D"
+	else:
+		roller = Dice3DRoller.new()
+		roller.name = "DiceOverlay3D"
+	layer.add_child(roller)
+	add_child(layer)
+	var result: int = await roller.call("roll")
+	layer.queue_free()
+	return result
 
 
 func _hero_action(use_skill: bool) -> void:
@@ -517,6 +559,7 @@ func _punch(label: Label) -> void:
 
 func _set_buttons_disabled(disabled: bool) -> void:
 	attack_button.disabled = disabled
+	attack2d_button.disabled = disabled
 	skill_button.disabled = disabled
 	menu_button.disabled = disabled
 

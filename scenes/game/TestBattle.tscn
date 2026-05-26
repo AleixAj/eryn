@@ -224,9 +224,9 @@ vertical_alignment = 1
 layout_mode = 3
 anchors_preset = 0
 offset_left = 520.0
-offset_top = 430.0
+offset_top = 400.0
 offset_right = 970.0
-offset_bottom = 514.0
+offset_bottom = 484.0
 mouse_filter = 2
 
 [node name="NameLabel" type="Label" parent="UI/BossPanel" unique_id=725607335]
@@ -265,7 +265,7 @@ vertical_alignment = 1
 
 [node name="CommandPanel" type="VBoxContainer" parent="UI" unique_id=412475601]
 offset_left = 606.0
-offset_top = 543.0
+offset_top = 491.0
 offset_right = 870.0
 offset_bottom = 733.0
 theme_override_constants/separation = 8
@@ -273,13 +273,19 @@ theme_override_constants/separation = 8
 [node name="AttackButton" type="Button" parent="UI/CommandPanel" unique_id=1929999596]
 custom_minimum_size = Vector2(264, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "⚔  ATAQUE"
+theme_override_font_sizes/font_size = 22
+text = "⚔  ATAQUE 3D"
+
+[node name="Attack2DButton" type="Button" parent="UI/CommandPanel" unique_id=178342817]
+custom_minimum_size = Vector2(264, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "⚔  ATAQUE 2D"
 
 [node name="SkillButton" type="Button" parent="UI/CommandPanel" unique_id=2013922547]
 custom_minimum_size = Vector2(264, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "✦  TÉCNICA"
 
 [node name="MenuButton" type="Button" parent="UI/CommandPanel" unique_id=1402099257]
@@ -350,6 +356,7 @@ theme_override_font_sizes/font_size = 22
 text = "✦ MENÚ"
 
 [connection signal="pressed" from="UI/CommandPanel/AttackButton" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="UI/CommandPanel/Attack2DButton" to="." method="_on_attack_2d_pressed"]
 [connection signal="pressed" from="UI/CommandPanel/SkillButton" to="." method="_on_skill_pressed"]
 [connection signal="pressed" from="UI/CommandPanel/MenuButton" to="." method="_on_command_menu_pressed"]
 [connection signal="pressed" from="UI/ResultPanel/RestartButton" to="." method="_on_restart_button_pressed"]

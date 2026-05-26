@@ -1,0 +1,21 @@
+CHANGELOG
+=========
+
+v1.0, 2026-05-11
+----------------
+
+Initial release.
+
+- 20 D20 result sprites at 1024 / 512 / 256 px.
+- Theme: Nightfall Marble (a near-black blue-tinted marble body with deep blue-violet veins, pale silver-white sparkle peaks, and gold inset-etch numerals carved into the polished stone).
+- Font: Barlow Bold (SIL OFL, used only to generate numeral geometry).
+- Camera framing: consistent three-quarter overhead pose with HDRI key
+  aligned to the active-face direction so the rolled face is brightest;
+  reads as a die at rest on a table viewed from above.
+- File format: PNG with straight alpha (from Cycles transparent film).
+- This is the free D20 sample. The full polyhedral set (D4-D20+D%) is
+  available as the **Nightfall Marble Complete Polyhedral Result Sprite
+  Pack** on itch.io.
+- D20 sprites in the freebie are byte-identical to the D20 sprites in
+  the full polyhedral pack; drop them in alongside the paid pack
+  without any rewiring needed.
